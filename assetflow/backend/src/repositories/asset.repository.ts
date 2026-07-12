@@ -42,7 +42,7 @@ export class AssetRepository {
       where.location = { contains: params.location };
     }
     
-    if (params.bookable !== undefined) {
+    if (params.bookable !== undefined && params.bookable !== '') {
       where.bookable = params.bookable === 'true' || params.bookable === true;
     }
 

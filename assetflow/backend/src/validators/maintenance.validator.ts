@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const createMaintenanceSchema = z.object({
   assetId: z.string().uuid(),
-  issue: z.string().min(10, 'Describe the issue in at least 10 characters'),
+  issue: z.string().min(5, 'Describe the issue in at least 5 characters'),
   priority: z.enum(['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']).optional(),
 });
 

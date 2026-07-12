@@ -8,7 +8,7 @@ export class NotificationService {
     const skip = (page - 1) * limit;
 
     const where: any = { userId };
-    if (params.isRead !== undefined) {
+    if (params.isRead !== undefined && params.isRead !== '') {
       where.isRead = params.isRead === 'true' || params.isRead === true;
     }
 

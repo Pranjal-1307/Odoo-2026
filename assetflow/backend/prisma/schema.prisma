@@ -201,7 +201,7 @@ model Asset {
   bookable        Boolean        @default(false)                 // shared/bookable resource flag
   photoUrl        String?        @map("photo_url")
   documentUrls    Json?          @map("document_urls")           // array of document paths
-  qrCode          String?        @map("qr_code")                 // QR code data/image path
+  qrCode          String?        @map("qr_code") @db.Text                 // QR code data/image path
   createdById     String         @map("created_by_id")
   createdAt       DateTime       @default(now()) @map("created_at")
   updatedAt       DateTime       @updatedAt @map("updated_at")
