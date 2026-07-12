@@ -181,7 +181,6 @@ export class ReportsService {
             acquisitionCost: true,
             allocations: {
               where: { status: AllocationStatus.ACTIVE },
-              include: { expectedReturn: true },
             },
           },
         },

@@ -9,7 +9,20 @@ export class AllocationRepository {
         status: AllocationStatus.ACTIVE,
       },
       include: {
-        allocatedTo: { select: { id: true, name: true, employeeCode: true, email: true } },
+        allocatedTo: {
+          select: {
+            id: true,
+            name: true,
+            employeeCode: true,
+            email: true,
+            department: {
+              select: {
+                id: true,
+                headId: true,
+              },
+            },
+          },
+        },
         allocatedBy: { select: { id: true, name: true } },
       },
     });

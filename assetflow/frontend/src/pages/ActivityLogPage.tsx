@@ -27,10 +27,21 @@ export default function ActivityLogPage() {
 
   // Fetch paginated logs
   const { data: result, isLoading, refetch } = useApi<any>(
-    () =>
-      api.get('/activity-logs', {
+    async () => {
+      const res = await api.get('/activity-logs', {
         params: { page, limit: 15, userId, entity, action, startDate, endDate },
-      }),
+      });
+      return {
+        ...res,
+        data: {
+          success: true,
+          data: {
+            data: res.data.data,
+            meta: res.data.meta,
+          },
+        },
+      };
+    },
     [page, userId, entity, action, startDate, endDate]
   );
 
@@ -151,7 +162,7 @@ export default function ActivityLogPage() {
 
           <div className="flex justify-between items-center border-t border-surface-100 pt-3">
             <span className="text-xs text-surface-500 font-semibold">
-              Showing {result?.data?.data?.length ?? 0} of {result?.data?.meta?.total ?? 0} activities
+              Showing {result?.data?.length ?? 0} of {result?.meta?.total ?? 0} activities
             </span>
             <button
               onClick={handleResetFilters}
@@ -169,7 +180,7 @@ export default function ActivityLogPage() {
         <CardContent className="p-0">
           {isLoading ? (
             <Spinner className="py-20" />
-          ) : result?.data?.data?.length > 0 ? (
+          ) : result?.data?.length > 0 ? (
             <>
               <Table>
                 <TableHeader>
@@ -184,7 +195,7 @@ export default function ActivityLogPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {result.data.data.map((log: any) => (
+                  {result.data.map((log: any) => (
                     <TableRow key={log.id}>
                       <TableCell className="font-bold text-surface-900">{log.user?.name || 'System'}</TableCell>
                       <TableCell>
@@ -213,7 +224,7 @@ export default function ActivityLogPage() {
               </Table>
 
               {/* Pagination */}
-              {result.data.meta && result.data.meta.totalPages > 1 && (
+              {result.meta && result.meta.totalPages > 1 && (
                 <div className="flex justify-between items-center p-4 border-t border-surface-100 bg-surface-50">
                   <Button
                     variant="outline"
@@ -224,12 +235,12 @@ export default function ActivityLogPage() {
                     Previous
                   </Button>
                   <span className="text-xs text-surface-500 font-semibold">
-                    Page {page} of {result.data.meta.totalPages}
+                    Page {page} of {result.meta.totalPages}
                   </span>
                   <Button
                     variant="outline"
                     size="sm"
-                    disabled={page === result.data.meta.totalPages}
+                    disabled={page === result.meta.totalPages}
                     onClick={() => handlePageChange(page + 1)}
                   >
                     Next

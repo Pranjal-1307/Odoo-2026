@@ -13,13 +13,13 @@ interface RefreshTokenPayload {
 
 export function generateAccessToken(payload: AccessTokenPayload): string {
   return jwt.sign(payload, config.jwt.secret, {
-    expiresIn: config.jwt.expiresIn,
+    expiresIn: config.jwt.expiresIn as any,
   });
 }
 
 export function generateRefreshToken(payload: RefreshTokenPayload): string {
   return jwt.sign(payload, config.jwt.refreshSecret, {
-    expiresIn: config.jwt.refreshExpiresIn,
+    expiresIn: config.jwt.refreshExpiresIn as any,
   });
 }
 

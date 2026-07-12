@@ -30,8 +30,8 @@ export default function AssetDirectoryPage() {
 
   // Fetch directory assets
   const { data: result, isLoading, refetch } = useApi<any>(
-    () =>
-      assetService.getAllAssets({
+    async () => {
+      const res = await assetService.getAllAssets({
         page,
         limit: 10,
         search,
@@ -39,7 +39,18 @@ export default function AssetDirectoryPage() {
         departmentId,
         status,
         bookable,
-      }),
+      });
+      return {
+        ...res,
+        data: {
+          success: true,
+          data: {
+            data: res.data.data,
+            meta: res.data.meta,
+          },
+        },
+      };
+    },
     [page, search, categoryId, departmentId, status, bookable]
   );
 
